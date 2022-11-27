@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go_version: ['>=1.18', '1.18', '1.17', '12']
+        go_version: ['>=1.18', '1.18', '1.17']
     
     
     steps:
