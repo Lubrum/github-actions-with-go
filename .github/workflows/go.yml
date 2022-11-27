@@ -13,13 +13,18 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: ['>=1.18', '1.18', '1.17', '12']
+    
+    
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Go
+    - name: Set up Go ${{ matrix.go_version }}
       uses: actions/setup-go@v3
       with:
-        go-version: 1.18
+        go-version: ${{ matrix.go_version }}
       
     - name: Build Postgres DB
       run: docker-compose build
