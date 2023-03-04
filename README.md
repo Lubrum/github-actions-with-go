@@ -1,4 +1,4 @@
-## Escola DevOps - trilha Integração Contínua e Entrega Contínua
+## Escola DevOps - trilha/formação [Integração Contínua e Entrega Contínua](https://cursos.alura.com.br/formacao-integracao-continua-entrega-continua)
 
 ### 1. Criando uma rotina de CI
 
