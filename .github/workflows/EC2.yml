@@ -40,7 +40,6 @@ jobs:
           export PORT=8000
           chmod +x /home/${{ secrets.REMOTE_USER }}/apigo/main
           cd /home/${{ secrets.REMOTE_USER }}/apigo
-          rm -rf 
           nohup ./main > nohup.out 2> nohup.err < /dev/null &
         
         
