@@ -21,7 +21,7 @@ jobs:
       DBNAME: root
     strategy:
       matrix:
-        go_version: ['>=1.18', '1.18', '1.17']
+        go_version: ['>=1.19', '1.19', '1.18']
         os: [ubuntu-latest, ubuntu-18.04]
     
     
