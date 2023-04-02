@@ -36,7 +36,7 @@ jobs:
             export PASSWORD=${{ secrets.DBPASSWORD }}
             export DBNAME=${{ secrets.DBNAME }}
             export DBPORT=${{ secrets.DBPORT }}
-            export PORT=8000
+            export PORT=5433
             chmod +x /home/${{ secrets.REMOTE_USER }}/apigo/main
             cd /home/${{ secrets.REMOTE_USER }}/apigo
             rm -rf 
