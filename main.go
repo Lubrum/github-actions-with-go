@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/guilhermeonrails/api-go-gin/database"
-	"github.com/guilhermeonrails/api-go-gin/routes"
+	"github.com/Lubrum/github-actions-with-go/database"
+	"github.com/Lubrum/github-actions-with-go/routes"
 )
 
 func main() {
