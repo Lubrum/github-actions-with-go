@@ -16,6 +16,6 @@ require (
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/validator.v2 v2.0.0-20210331031555-b37d688a7fb0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/postgres v1.2.3
-	gorm.io/gorm v1.22.4
+	gorm.io/driver/postgres v1.5.0
+	gorm.io/gorm v1.24.6
 )
