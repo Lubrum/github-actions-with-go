@@ -18,7 +18,7 @@
 
 ### 2. ~~Começando com entrega contínua~~
 
-### 2.1 Integração Contínua: Pipeline de entrega e implementação contínua na EC2
+### 2.1 ~~Integração Contínua: Pipeline de entrega e implementação contínua na EC2~~
 
 ### 2.2 Integração Contínua: Automatize o deploy no Amazon ECS
 
