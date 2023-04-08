@@ -48,3 +48,10 @@ docker-compose up -d
 go run main.go
 go test -v main_test.go
 ```
+
+Passos na criação do cluster ECS:
+
+1- criação de cluster no Amazon ECS;
+2- criação de 'task definition' no Amazon ECS;
+3- criação de serviço através da task ou do cluster no Amazon ECS (faz ligação entre a task e o cluster);
+4- para criar CI/CD no github para o ECS, pode requerer criar usuário IAM caso exista apenas user root na conta;
