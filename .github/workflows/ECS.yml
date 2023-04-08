@@ -24,7 +24,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: GO
-        image: lucianobrum/go_ci:integracao-continua-automatize-deploy-amazon-ecs
+        image: lucianobrum/go_ci:${{github.run_number}}
         environment-variables: |
           HOST=${{ secrets.DBHOST }}
           USER=${{ secrets.DBUSER }}
