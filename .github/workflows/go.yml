@@ -60,13 +60,13 @@ jobs:
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
-  # Deprecated - durante o curso, o deploy passou a ser no ECS em vez do EC2
+  # Deprecated - durante o curso, o deploy passou a ser no ECS em vez do EC2, depois voltei para essa versão, ECS é caro :-(
   #Deploy_EC2:
   #  needs: build
   #  uses: ./.github/workflows/EC2.yml
   #  secrets: inherit
 
-  Deploy_ECS:
-    needs: docker
-    uses: ./.github/workflows/ECS.yml
-    secrets: inherit
+  #Deploy_ECS:
+  #  needs: docker
+  #  uses: ./.github/workflows/ECS.yml
+  #  secrets: inherit
