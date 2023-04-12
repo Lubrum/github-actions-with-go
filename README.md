@@ -20,7 +20,7 @@
 
 ### 2.1 ~~Integração Contínua: Pipeline de entrega e implementação contínua na EC2~~
 
-### 2.2 Integração Contínua: Automatize o deploy no Amazon ECS
+### 2.2 ~~Integração Contínua: Automatize o deploy no Amazon ECS~~
 
 
 ### 3. Garantindo a aplicação e Kubernetes
@@ -48,3 +48,13 @@ docker-compose up -d
 go run main.go
 go test -v main_test.go
 ```
+
+Passos na criação do cluster ECS (2.2):
+
+1- criação de cluster no Amazon ECS;
+2- criação de 'task definition' no Amazon ECS;
+3- criação de serviço através da task ou do cluster no Amazon ECS (faz ligação entre a task e o cluster);
+4- para criar CI/CD no github para o ECS, pode requerer criar usuário IAM caso exista apenas user root na conta;
+4.1- caso falhe criação do serviço no ECS, verificar se foi atribuído o grupo de segurança da API e não do banco em RDS, e se a permissão do grupo de segurança não tem restrições na porta da aplicação. 
+Eu erroneamente restringi acessos na porta da aplicação para apenas meu IP, só que agora a aplicação estaria containerizada e por trás de um balanceador de carga que precisa ter permissão para acessar a API.
+Também verificar se a imagem Docker está ok, ou seja, se está executando sem erros.
