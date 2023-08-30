@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     env:
-      HOST: localhost
+      HOST: postgres
       DBPORT: 5432
       USER: root
       PASSWORD: root
