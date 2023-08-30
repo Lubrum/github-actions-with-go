@@ -29,8 +29,11 @@
 
 ### 3.2 Integração Contínua: automatizando a entrega no Kubernetes
 
+# Requisitos para execução local:
 
-## comandos utilizados no curso
+- docker;
+- docker compose;
+- linguagem go;
 
 ```bash
 sudo apt-get update
@@ -41,10 +44,9 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo apt install golang-go
-git clone https://github.com/alura-cursos/api_rest_gin_go_2-validacoes-e-testes.git
-cd api_rest_gin_go_2-validacoes-e-testes
 
-docker-compose up -d
+# para testar a aplicação
+docker compose up -d
 go run main.go
 go test -v main_test.go
 ```

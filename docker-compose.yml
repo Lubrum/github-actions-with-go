@@ -1,15 +1,21 @@
-version: '3'
+version: '3.8'
+
+networks:
+  go-ci:
+
 services:
   postgres:
-    image: "postgres"
+    image: postgres
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=root      
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     volumes:
-      - /postgres-data:/var/lib/postgresql/data  
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - go-ci
 
   pgadmin-compose:
     image: dpage/pgadmin4
@@ -18,6 +24,21 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "123456"
     ports:
       - "54321:80"
+    networks:
+      - go-ci
+    depends_on:
+      - postgres
+
+  go-ci:
+    image: lucianobrum/go_ci:latest
+    container_name: go-ci-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8080"
+    networks:
+      - go-ci
     depends_on:
       - postgres
 
