@@ -28,10 +28,10 @@ jobs:
       with:
         go-version: ${{ matrix.go_version }}
       
-    - name: Build-DB
+    - name: Build go artifact
       run: docker-compose build
       
-    - name: Create-DB
+    - name: Start Database
       run: docker-compose up -d postgres
 
     - name: Test

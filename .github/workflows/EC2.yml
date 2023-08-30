@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-        name: programa
     
     - name: Deploy to Staging server
       uses: easingthemes/ssh-deploy@main
@@ -22,7 +18,7 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: /home/${{ secrets.REMOTE_USER }}/apigo
         EXCLUDE: "postgres-data"
-        
+    # TODO: update below to run go app with docker compose...
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master
       with:

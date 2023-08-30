@@ -26,4 +26,6 @@ jobs:
         file: ./Dockerfile
         # Push is a shorthand for --output=type=registry
         push: true
-        tags: lucianobrum/go_ci:${{github.run_number}}
+        tags: |
+          lucianobrum/go_ci:${{github.run_number}}
+          lucianobrum/go_ci:latest
