@@ -33,25 +33,16 @@
 
 - docker;
 - docker compose;
-- linguagem go;
+
+### Para executar a aplicação junto com banco de dados, execute o código abaixo:
 
 ```bash
-sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg lsb-release
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-sudo apt install golang-go
-
-# para testar a aplicação
 docker compose up -d
-go run main.go
-go test -v main_test.go
 ```
 
-Passos na criação do cluster ECS (2.2):
+Para testar se tudo funcionou, abra no navegador o link http://localhost:8085/index ou teste a API GET http://localhost:8085/MEU_NOME
+
+## Passos na criação do cluster ECS (2.2):
 
 1- criação de cluster no Amazon ECS;
 
