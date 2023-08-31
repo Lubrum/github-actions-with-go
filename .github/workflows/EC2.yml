@@ -33,8 +33,10 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: /home/${{ secrets.REMOTE_USER }}/apigo
-        EXCLUDE: "postgres-data, .idea, assets, controllers, database, models, routes, templates"
-
+        EXCLUDE: "/postgres-data/, /.idea/, /.git/, /.github/, /assets/, /controllers/, /database/, /models/, /routes/, /templates/, .dockerignore, .gitignore, Dockerfile, go.mod, go.sum. mai.go. main_test.go, README.md"
+        SCRIPT_BEFORE: |
+          whoami
+          ls -al
     - name: Start remote containers
       uses: appleboy/ssh-action@master
       with:
