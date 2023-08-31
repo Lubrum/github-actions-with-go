@@ -34,6 +34,12 @@
 - docker;
 - docker compose;
 
+### Comando para atualização de dependências (em ambiente local isso requer go instalado na máquina)
+
+```bash
+go get -u
+```
+
 ### Para executar a aplicação junto com banco de dados, execute o código abaixo:
 
 ```bash

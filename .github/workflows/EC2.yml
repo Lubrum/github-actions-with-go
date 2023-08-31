@@ -10,6 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name: programa
+
     - name: Stop remote containers
       uses: appleboy/ssh-action@master
       with:
@@ -28,11 +33,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: /home/${{ secrets.REMOTE_USER }}/apigo
-        EXCLUDE: "postgres-data"
-        args: |
-          -avz --delete
-          --include "docker-compose.yml"
-          --exclude "*"
+        EXCLUDE: "postgres-data, .idea, assets, controllers, database, models, routes, templates"
 
     - name: Start remote containers
       uses: appleboy/ssh-action@master
