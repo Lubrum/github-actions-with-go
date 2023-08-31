@@ -56,4 +56,3 @@ jobs:
           else
             echo "Docker Compose command failed."
           fi
-        

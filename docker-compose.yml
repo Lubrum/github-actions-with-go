@@ -5,7 +5,8 @@ networks:
 
 services:
   postgres:
-    image: postgres
+    image: postgres:15.4-alpine
+    hostname: postgres
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -18,7 +19,8 @@ services:
       - go-ci
 
   pgadmin-compose:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:7.6
+    hostname: go-ci-db-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: "gui@alura.com"
       PGADMIN_DEFAULT_PASSWORD: "123456"
