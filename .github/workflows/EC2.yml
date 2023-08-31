@@ -24,7 +24,7 @@ jobs:
         port: 22
         script: |
           cd /home/${{ secrets.REMOTE_USER }}/apigo
-          if [ -e "docker-compose.yml" ]; then docker compose down; fi;
+          if [ -e "docker-compose.yml" ]; then sudo docker compose down; fi;
 
     - name: Deploy to Staging server
       uses: easingthemes/ssh-deploy@main
@@ -50,7 +50,7 @@ jobs:
           export DBPORT=${{ secrets.DBPORT }}
           export PORT=8000
           cd /home/${{ secrets.REMOTE_USER }}/apigo
-          docker compose up -d > docker-compose-logs.txt 2>&1
+          sudo docker compose up -d > docker-compose-logs.txt 2>&1
           if [ $? -eq 0 ]; then
             echo "Docker Compose command succeeded."
           else
