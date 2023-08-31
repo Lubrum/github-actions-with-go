@@ -19,7 +19,7 @@ jobs:
         port: 22
         script: |
           cd /home/${{ secrets.REMOTE_USER }}/apigo
-          docker compose down
+          if [ -e "docker-compose.yml" ]; then docker compose down; fi;
 
     - name: Deploy to Staging server
       uses: easingthemes/ssh-deploy@main
