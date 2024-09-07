@@ -46,6 +46,13 @@ go get -u
 docker compose up -d
 ```
 
+### para rodar e executar os testes, suba o banco de dados com o docker compose, e rode o main_test.go localmente
+
+```bash
+docker compose up -d
+HOST=localhost USER=root PASSWORD=root DBNAME=root DBPORT=5432 go test -v main_test.go
+```
+
 Para testar se tudo funcionou, abra no navegador o link http://localhost:8085/index ou teste a API GET http://localhost:8085/MEU_NOME
 
 ## Passos na criação do cluster ECS (2.2):
