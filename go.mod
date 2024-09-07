@@ -2,8 +2,6 @@ module github.com/Lubrum/github-actions-with-go
 
 go 1.21.0
 
-toolchain go1.23.0
-
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/stretchr/testify v1.9.0
