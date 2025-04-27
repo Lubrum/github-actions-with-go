@@ -34,6 +34,10 @@ jobs:
     - name: Start Database
       run: docker compose up -d postgres
 
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        docker exec -it $(docker ps -q -f name=postgres) pg_isready -U postgres
+        
     - name: Test
       run: go test -v main_test.go 
 
@@ -41,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v4.6.2
       with:
         # Artifact name
-        name: programa-${{ github.run_id }}-${{ matrix.os }}-${{ matrix.go_version }}
+        name: programa-${{ github.run_id }}
         # A file, directory or wildcard pattern that describes what to upload
         path: docker-compose.yml
 
