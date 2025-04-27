@@ -34,9 +34,9 @@ jobs:
     - name: Start Database
       run: docker compose up -d postgres
 
-    - name: Wait for PostgreSQL to be ready
+    - name: Check if Postgres is ready
       run: |
-        docker exec -it $(docker ps -q -f name=postgres) pg_isready -U postgres
+        docker exec $(docker ps -q -f name=postgres) pg_isready -U postgres
         
     - name: Test
       run: go test -v main_test.go 
