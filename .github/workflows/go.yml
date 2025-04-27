@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         go_version: ['1.23', '1.24']
-        os: ['ubuntu-latest', 'ubuntu-20.04']
+        os: ['ubuntu-latest', 'ubuntu-22.04']
     steps:
     - uses: actions/checkout@v3.5.0
 
@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v4.6.2
       with:
         # Artifact name
-        name: programa-${{ github.run_number }}
+        name: programa-${{ github.run_number }}-${{ github.sha }}
         # A file, directory or wildcard pattern that describes what to upload
         path: docker-compose.yml
 
