@@ -5,6 +5,7 @@ COPY go.mod go.sum ./
 RUN go mod tidy
 RUN go mod download
 COPY . .
+RUN go mod tidy
 RUN go build -o main
 
 # Stage 2: Create a minimal runtime image
