@@ -2,7 +2,6 @@
 FROM golang:1.23.1-alpine AS build
 WORKDIR /app
 COPY go.mod go.sum ./
-RUN go mod tidy
 RUN go mod download
 COPY . .
 RUN go mod tidy
