@@ -13,7 +13,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v4.3.0
       with:
-        name: programa-${{ github.run_id }}-${{ matrix.os }}-${{ matrix.go_version }}
+        name: programa-${{ github.run_id }}
 
     - name: Stop remote containers
       uses: appleboy/ssh-action@master
