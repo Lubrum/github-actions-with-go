@@ -41,14 +41,19 @@ jobs:
     - name: Test
       run: go test -v main_test.go 
 
+  build-artifact:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3.5.0
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.2
       with:
-        # Artifact name
         name: programa-${{ github.run_id }}
-        # A file, directory or wildcard pattern that describes what to upload
         path: docker-compose.yml
-
+        
   docker:
     needs: test
     uses: ./.github/workflows/Docker.yml
