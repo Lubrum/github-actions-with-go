@@ -13,7 +13,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.0
       with:
-        name: programa-${{ github.run_number }}
+        name: programa-${{ github.run_number }}-${{ github.sha }}
 
     - name: Stop remote containers
       uses: appleboy/ssh-action@master
