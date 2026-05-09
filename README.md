@@ -50,7 +50,7 @@ docker compose up -d
 
 ```bash
 docker compose up -d
-HOST=localhost USER=root PASSWORD=root DBNAME=root DBPORT=5432 go test -v main_test.go
+HOST=localhost USER=root PASSWORD=root DBNAME=root DBPORT=5433 go test -v main_test.go
 ```
 
 Para testar se tudo funcionou, abra no navegador o link http://localhost:8085/index ou teste a API GET http://localhost:8085/MEU_NOME

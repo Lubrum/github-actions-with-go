@@ -1,44 +1,58 @@
-networks:
-  go-ci:
+name: github-actions-with-go
 
 services:
   postgres:
-    image: postgres:15.4-alpine
-    hostname: postgres
+    image: postgres:18-alpine
+    container_name: go-ci-postgres
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=root      
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root}
+      POSTGRES_DB: ${POSTGRES_DB:-root}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    networks:
-      - go-ci
+      - postgres-18-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
-  pgadmin-compose:
-    image: dpage/pgadmin4:7.6
-    hostname: go-ci-db-pgadmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: go-ci-pgadmin
+    profiles:
+      - tools
     environment:
-      PGADMIN_DEFAULT_EMAIL: "gui@alura.com"
+      PGADMIN_DEFAULT_EMAIL: gui@alura.com
       PGADMIN_DEFAULT_PASSWORD: "123456"
     ports:
-      - "54321:80"
-    networks:
-      - go-ci
+      - "127.0.0.1:${PGADMIN_PORT:-54321}:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
   go-ci:
-    image: lucianobrum/go_ci:latest
+    image: lucianobrum/go_ci:${IMAGE_TAG:-local}
     container_name: go-ci-api
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      HOST: ${HOST:-postgres}
+      DBPORT: ${DBPORT:-5432}
+      USER: ${DBUSER:-root}
+      PASSWORD: ${DBPASSWORD:-root}
+      DBNAME: ${DBNAME:-root}
+      GIN_MODE: ${GIN_MODE:-release}
     ports:
-      - "8085:8080"
-    networks:
-      - go-ci
+      - "127.0.0.1:${API_PORT:-8085}:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
+volumes:
+  postgres-18-data:

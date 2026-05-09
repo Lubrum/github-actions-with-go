@@ -3,56 +3,64 @@ name: Entrega contínua
 on:
   workflow_call:
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   EC2:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v6
 
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v4.3.0
-      with:
-        name: programa-${{ github.run_id }}
+      - name: Download docker-compose.yml
+        uses: actions/download-artifact@v8
+        with:
+          name: programa-${{ github.run_id }}
 
-    - name: Stop remote containers
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /home/${{ secrets.REMOTE_USER }}/apigo
-          if [ -e "docker-compose.yml" ]; then sudo docker compose down; fi;
+      - name: Prepare remote directory
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            mkdir -p /home/${{ secrets.REMOTE_USER }}/apigo
+            cd /home/${{ secrets.REMOTE_USER }}/apigo
+            if [ -f docker-compose.yml ]; then
+              sudo docker compose down --remove-orphans
+            fi
 
-    - name: Copy file via ssh password
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "docker-compose.yml"
-        target: "/home/${{ secrets.REMOTE_USER }}/apigo"
+      - name: Copy docker-compose.yml
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: docker-compose.yml
+          target: /home/${{ secrets.REMOTE_USER }}/apigo
+          overwrite: true
 
-    - name: Start remote containers
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          export HOST=${{ secrets.DBHOST }}
-          export USER=${{ secrets.DBUSER }}
-          export PASSWORD=${{ secrets.DBPASSWORD }}
-          export DBNAME=${{ secrets.DBNAME }}
-          export DBPORT=${{ secrets.DBPORT }}
-          export PORT=8000
-          cd /home/${{ secrets.REMOTE_USER }}/apigo
-          sudo docker compose up -d > docker-compose-logs.txt 2>&1
-          if [ $? -eq 0 ]; then
-            echo "Docker Compose command succeeded."
-          else
-            echo "Docker Compose command failed."
-          fi
+      - name: Start remote containers
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            export IMAGE_TAG=${{ github.run_number }}
+            export HOST=${{ secrets.DBHOST }}
+            export DBUSER=${{ secrets.DBUSER }}
+            export DBPASSWORD=${{ secrets.DBPASSWORD }}
+            export DBNAME=${{ secrets.DBNAME }}
+            export DBPORT=${{ secrets.DBPORT }}
+            export API_PORT=${{ vars.API_PORT || '8085' }}
+            export POSTGRES_PORT=${{ vars.POSTGRES_PORT || '5433' }}
+            cd /home/${{ secrets.REMOTE_USER }}/apigo
+            sudo --preserve-env=IMAGE_TAG,HOST,DBUSER,DBPASSWORD,DBNAME,DBPORT,API_PORT,POSTGRES_PORT docker compose pull go-ci
+            sudo --preserve-env=IMAGE_TAG,HOST,DBUSER,DBPASSWORD,DBNAME,DBPORT,API_PORT,POSTGRES_PORT docker compose up -d --no-build
+            sudo docker compose ps

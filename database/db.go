@@ -1,25 +1,37 @@
 package database
 
 import (
-	"log"
+	"fmt"
 	"os"
+
 	"github.com/Lubrum/github-actions-with-go/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var (
-	DB  *gorm.DB
-	err error
-)
+var DB *gorm.DB
 
-func ConectaComBancoDeDados() {
-	
-	stringDeConexao := "host="+os.Getenv("HOST")+" user="+os.Getenv("USER")+" password="+os.Getenv("PASSWORD")+" dbname="+os.Getenv("DBNAME")+" port="+os.Getenv("DBPORT")+" sslmode=disable"
-	DB, err = gorm.Open(postgres.Open(stringDeConexao))
+func ConectaComBancoDeDados() error {
+	db, err := gorm.Open(postgres.Open(connectionString()))
 	if err != nil {
-		log.Panic("Erro ao conectar com banco de dados")
+		return fmt.Errorf("conectar com banco de dados: %w", err)
 	}
 
-	DB.AutoMigrate(&models.Aluno{})
+	if err := db.AutoMigrate(&models.Aluno{}); err != nil {
+		return fmt.Errorf("migrar banco de dados: %w", err)
+	}
+
+	DB = db
+	return nil
+}
+
+func connectionString() string {
+	return fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		os.Getenv("HOST"),
+		os.Getenv("USER"),
+		os.Getenv("PASSWORD"),
+		os.Getenv("DBNAME"),
+		os.Getenv("DBPORT"),
+	)
 }

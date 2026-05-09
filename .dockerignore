@@ -1,1 +1,10 @@
-postgres-data/
+.git
+.github
+.idea
+postgres-data
+tmp
+coverage.out
+*.test
+*.log
+Dockerfile
+docker-compose*.yml
