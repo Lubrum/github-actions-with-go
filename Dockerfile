@@ -8,7 +8,7 @@ RUN go mod download && go mod verify
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/api .
 
-FROM alpine:3.23 AS runtime
+FROM alpine:3.24 AS runtime
 
 RUN apk add --no-cache ca-certificates tzdata \
 	&& addgroup -S app \
